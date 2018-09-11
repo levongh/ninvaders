@@ -1,4 +1,6 @@
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 #include "UIManager.h"
 
@@ -40,7 +42,6 @@ void UIManager::setupUI()
 	init_pair(static_cast<short>(Colour::MAGENTA), COLOR_MAGENTA, COLOR_BLACK);	// <curses.h> define color-pair
 	init_pair(static_cast<short>(Colour::WHITE), COLOR_WHITE, COLOR_BLACK);	// <curses.h> define color-pair
 
-    // initialize sprites 
     battleFieldInit();
     playerInit();
     playerMissileInit();
@@ -265,19 +266,163 @@ void UIManager::playerExplosionDisplay(int x, int y)
 {
     WINDOW* wPlayerExplosion;
     char playerExplosionChars[16+1]="@~`.,^#*-_=\\/%{}";
-    int t,s;
 
     wPlayerExplosion=newpad(1,PLAYERWIDTH);		// new pad
     wattrset(wPlayerExplosion,COLOR_PAIR(Colour::YELLOW));	// set color
 
-    for(t=0;t<5;t++){			// 5 frames
+    for(int t = 0; t < 5; ++t){			// 5 frames
         wclear(wPlayerExplosion);	// clear pad
-        for(s=0;s<PLAYERWIDTH;s++){
-            waddch(wPlayerExplosion,playerExplosionChars[rand()%16]);	// sprite
+        for(int s = 0; s < PLAYERWIDTH; ++s){
+            waddch(wPlayerExplosion,playerExplosionChars[rand()%16]);
         }
-
-        copywin(wPlayerExplosion,wBattleField,0,0,y,x,y,x+PLAYERWIDTH-1,0); 	// display explostion
-        wrefresh(wBattleField);	// refresh battelfield to display explosion frames
-        //doSleep(100000);		// play animation not too fast
+        copywin(wPlayerExplosion,wBattleField,0,0,y,x,y,x+PLAYERWIDTH-1,0);
+        wrefresh(wBattleField);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+//        doSleep(100000);
     }
+}
+
+void UIManager::aliensDisplay(int x, int y, int wid, int hgt)
+{
+    copywin(wAliens,wBattleField,0,0,y,x,y+hgt,x+wid+2,0);
+}
+
+void UIManager::aliensClear(int x, int y, int wid, int hgt)
+{
+    copywin(wEmpty,wBattleField,0,0,y,x,y+hgt,x+wid+2,0);
+}
+
+void UIManager::aliensMissileDisplay(int x, int y)
+{
+    copywin(wAliensMissile,wBattleField,0,0,y,x,y,x,0);
+}
+
+void UIManager::aliensMissileClear(int x, int y)
+{
+    copywin(wEmpty,wBattleField,0,0,y,x,y,x,0);
+}
+
+void UIManager::aliensRefresh(int level, int *pAliens)
+{
+    static int frame = 0; // used for animation; mod 2 == 0: frame1, mod2 == 1: frame2
+    int k,row;
+    int c = 0;
+    int alienType = 0;
+    char ships[2][9][3 + 1] = {
+        {",^,", "_O-", "-o-",  "o=o", "<O>", "_x_", "*^*", "\\_/", "o o"},
+        {".-.", "-O_", "/o\\", "o-o", "<o>", "-x-", "o^o", "/~\\", "oo "}
+    };
+	int colors[9] = {static_cast<short>(Colour::RED),
+                     static_cast<short>(Colour::GREEN),
+                     static_cast<short>(Colour::BLUE),
+                     static_cast<short>(Colour::RED),
+                     static_cast<short>(Colour::GREEN),
+                     static_cast<short>(Colour::BLUE),
+                     static_cast<short>(Colour::RED),
+                     static_cast<short>(Colour::GREEN),
+                     static_cast<short>(Colour::BLUE)
+                    };
+
+    wclear(wAliens);
+    wattrset(wAliens,COLOR_PAIR(Colour::RED));
+    ++frame;
+    // draw alien if there is one
+    for (row = 0; row < ALIENS_MAX_NUMBER_Y * 2; ++row) {
+        for (k = 0; k < ALIENS_MAX_NUMBER_X; ++k) {
+            if ((row % 2) == 0) {
+                alienType = *(pAliens + c * (ALIENS_MAX_NUMBER_X) + k);
+                if (alienType != 0) {
+                    wattrset(wAliens,COLOR_PAIR(colors[alienType-1]));
+                    waddch(wAliens,ships[frame%2][alienType-1+(3*((level-1)%3))][0]);
+                    waddch(wAliens,ships[frame%2][alienType-1+(3*((level-1)%3))][1]);
+                    waddch(wAliens,ships[frame%2][alienType-1+(3*((level-1)%3))][2]);
+                    if (alienType > 4) {
+                        *(pAliens + c * ALIENS_MAX_NUMBER_X + k) = (alienType + 1) % 9;
+                    } // todo: what's that? If alien_type > 4 then do a modulo operation???
+                } else {
+                    waddstr(wAliens,"   ");
+                }
+            } else {
+                waddstr(wAliens,"   ");
+            }
+        }
+        if ((row % 2) == 1) {++c;}
+    }
+}
+
+void UIManager::bunkersClear()
+{
+    copywin(wEmpty, wBattleField, 0, 0, BUNKERY, BUNKERX, BUNKERY + BUNKERHEIGHT - 1, BUNKERX + BUNKERWIDTH - 1, 0);
+}
+
+void UIManager::bunkersClearElement(int x, int y)
+{
+	copywin(wEmpty, wBattleField, 0, 0, y, x, y, x, 0);
+}
+
+void UIManager::bunkersDisplay(int *pBunker)
+{
+    wclear(wBunkers);
+    wattrset(wBunkers,COLOR_PAIR(Colour::CYAN));
+    for (int l = 0; l < BUNKERHEIGHT; ++l) {
+        for (int k = 0; k < BUNKERWIDTH; ++k) {
+            if (*(pBunker + (l * (BUNKERWIDTH + 1)) + k) == 1) {
+                waddch(wBunkers,'#');
+            } else {
+                waddch(wBunkers,' ');
+            }
+        }
+    }
+    copywin(wBunkers, wBattleField, 0, 0, BUNKERY, BUNKERX, BUNKERY + BUNKERHEIGHT - 1, BUNKERX + BUNKERWIDTH - 1, 0);
+}
+
+void UIManager::finish(int sig)
+{
+	endwin();
+    std::exit(0);
+}
+
+
+void UIManager::ufoRefresh()
+{
+	char ufo[4][6] = {"<o o>", "<oo >", "<o o>", "< oo>"};
+	static int frame = 0;
+
+	wclear(wUfo);
+        wattrset(wUfo, COLOR_PAIR(Colour::MAGENTA));
+	waddstr(wUfo, ufo[frame % 4]);
+
+	frame++;
+}
+
+void UIManager::ufoDisplay(int x, int y)
+{
+	copywin(wUfo, wBattleField, 0, 0, y, x, y, x + UFOWIDTH - 1, 0);
+}
+
+void UIManager::ufoClear(int x, int y)
+{
+	copywin(wEmpty, wBattleField, 0, 0, y, x, y, x + UFOWIDTH - 1, 0);
+}
+
+void UIManager::statusDisplay(int level, int score, int lives)
+{
+    int t, xOffset;
+    char strStatus[55];
+    // "Level: 01 Score: 0001450 Lives: /-\ /-\ /-\ /-\ /-\ "
+    // "1234567890123456789012345678901234567890123456789012"
+
+    xOffset = (SCREENWIDTH / 2) - 24;
+
+    sprintf (strStatus, "Level: %2.2d Score: %2.7d Lives: ", level, score);
+
+    wclear(wStatus);
+    wattrset(wStatus, COLOR_PAIR(Colour::RED));
+    waddstr(wStatus, strStatus);
+
+    // show maximal five lives
+    for (t = 1; ((t <= 5) && (t < lives)); t++){
+        waddstr(wStatus, "/-\\ ");
+    }
+    copywin(wStatus, wBattleField, 0, 0, SCREENHEIGHT-1, xOffset, SCREENHEIGHT-1, xOffset + 54, 0);
 }

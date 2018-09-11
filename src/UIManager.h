@@ -3,64 +3,89 @@
 #include <ncurses.h>
 #include <signal.h>
 
-enum class Colour : short
-{
-    RED     = 1,
-    GREEN   = 2,
-    YELLOW  = 3,
-    BLUE    = 4,
-    CYAN    = 5,
-    MAGENTA = 6,
-    WHITE   = 7
-};
+#include "common.h"
 
-#define SCREENHEIGHT 24
-#define SCREENWIDTH 80	
-	
-#define PLAYERWIDTH 5
-//#define PLAYERPOSY (SCREENHEIGHT-2)
-//
-#define BUNKERWIDTH 80
-#define BUNKERHEIGHT 4
-//#define BUNKERX 0
-//#define BUNKERY (SCREENHEIGHT-8)
-//	
-#define ALIENS_MAX_NUMBER_X 10
-#define ALIENS_MAX_NUMBER_Y 5
-//
-#define UFOWIDTH 5
-//#define UFOPOSY 0
-//
+/**
+ * @brief UIManager class which based on ncurses lib and does specific objects drowing
+ * @author Levon Ghukasyan
+ **/
 
 class UIManager
 {
+    ///@brief static functionality
+    ///@{
 public:
     static UIManager* getInstance();
     static UIManager* createInstance();
     static void removeInstance();
+    ///@}
 
+    ///@brief
+    ///@{
 public:
     UIManager() = default;
     void setupUI();
+    ///@}
 
+    ///@brief private constructors and assignmnt operats
+    ///{
 private:
     UIManager (const UIManager& other) = delete;
     UIManager (UIManager&& other) = delete;
 
     UIManager& operator=(const UIManager& other) = delete;
     UIManager& operator=(UIManager&& other) = delete;
+    ///@}
 
+    ///@brief initalization functionalities
+    ///@
 public:
     void titleScreenDisplay();
     void titleScreenClear();
     void battleFieldClear();
     void gameOverDisplay();
     void refreshScreen();
+    ///@}
+
+    ///@brief player specific functionalities
+    ///@{
+public:
     void playerMissileClear(int x, int y);
     void playerClear(int x, int y);
     void playerDisplay(int x, int y);
     void playerExplosionDisplay(int x, int y);
     void playerMissileDisplay(int x, int y);
+    ///@}
+
+    ///@brief aliens specific functionalities
+    ///@{
+public:
+    void aliensDisplay(int x, int y, int wid, int hgt);
+    void aliensClear(int x, int y, int wid, int hgt);
+    void aliensMissileDisplay(int x, int y);
+    void aliensMissileClear(int x, int y);
+    void aliensRefresh(int level, int *pAliens);
+    ///@}
+
+    ///@brief bunker Specific functionalities
+    ///@{
+public:
+    void bunkersClear();
+    void bunkersClearElement(int x, int y);
+    void bunkersDisplay(int *pBunker);
+    ///@}
+
+    ///@brief UFO specific functionalities
+    ///@{
+public:
+    void ufoRefresh();
+    void ufoDisplay(int x, int y);
+    void ufoClear(int x, int y);
+    void statusDisplay(int level, int score, int lives);
+    ///@}
+
+public:
+    void finish(int);
 
 private:
     void battleFieldInit();
