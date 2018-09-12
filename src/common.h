@@ -1,6 +1,30 @@
 #pragma once
 
 #include <random>
+#include <string>
+#include <exception>
+
+struct CloseProgramm : public std::exception
+{
+public:
+    explicit CloseProgramm(const std::string& what)
+        : m_message(what.c_str())
+    {
+    }
+
+    explicit CloseProgramm(const char* what)
+        : m_message(what)
+    {
+    }
+
+    virtual const char* what() const noexcept override
+    {
+        return m_message;
+    }
+
+private:
+    const char* m_message;
+};
 
 static std::random_device device;
 static std::mt19937 gen(device());

@@ -1,3 +1,6 @@
+#include <iostream>
+#include <stdexcept>
+
 #include "GameManager.h"
 #include "UIManager.h"
 
@@ -21,17 +24,21 @@ int main(int argc, char** argv)
 {
     try {
         createSingletones();
-        GameManager::getInstance()->setup(argc, argv);
+        GameManager* gameMgr = GameManager::getInstance();
+        gameMgr->setup(argc, argv);
+
+        do {
+            gameMgr->readInput();
+        } while (true);
+        removeSingletones();
+
+    } catch (const std::exception& ex) {
+        std::cout << ex.what() << std::endl;
+        removeSingletones();
     } catch (...) {
         removeSingletones();
+        std::exit(0);
     }
-
-    GameManager* gameMgr = GameManager::getInstance();
-    do {
-        gameMgr->readInput();
-    } while (true);
-
-    removeSingletones();
 
     return 0;
 }

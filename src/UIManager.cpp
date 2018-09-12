@@ -403,7 +403,7 @@ void UIManager::bunkersDisplay(int *pBunker)
 void UIManager::finish(int sig)
 {
 	endwin();
-    std::exit(0);
+    throw CloseProgramm("Closing programm");
 }
 
 
