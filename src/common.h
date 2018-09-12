@@ -16,28 +16,27 @@ enum class Colour : short
     WHITE   = 7
 };
 
-#define SCREENHEIGHT 24
-#define SCREENWIDTH 80
+static const int SCREENHEIGHT = 24;
+static const int SCREENWIDTH  = 80;
+static const int PLAYERWIDTH  = 5;
+static const int PLAYERPOSY   = SCREENHEIGHT - 2;
+static const int BUNKERWIDTH  = 80;
+static const int BUNKERHEIGHT = 4;
+static const int BUNKERX      = 0;
+static const int BUNKERY      = SCREENHEIGHT - 8;
+static const int UFOWIDTH     = 5;
+static const int UFOPOSY      = 0;
 
-#define PLAYERWIDTH 5
-#define PLAYERPOSY (SCREENHEIGHT-2)
+static const int UFO_ALIEN_TYPE   = 0;
+static const int RED_ALIEN_TYPE   = 1;
+static const int GREEN_ALIEN_TYPE = 2;
+static const int BLUE_ALIEN_TYPE  = 3;
 
-#define BUNKERWIDTH 80
-#define BUNKERHEIGHT 4
-#define BUNKERX 0
-#define BUNKERY (SCREENHEIGHT-8)
+static const int ALIENS_MAX_NUMBER_X = 10;
+static const int ALIENS_MAX_NUMBER_Y = 5;
+static const int ALIENS_MAX_MISSILES = 10;
 
-#define ALIENS_MAX_NUMBER_X 10
-#define ALIENS_MAX_NUMBER_Y 5
-#define ALIENS_MAX_MISSILES 10
 
-#define UFOWIDTH 5
-#define UFOPOSY 0
+extern int alienBlock[ALIENS_MAX_NUMBER_Y][ALIENS_MAX_NUMBER_X];
 
-namespace common {
-
-static int alienBlock[ALIENS_MAX_NUMBER_Y][ALIENS_MAX_NUMBER_X];
-
-static int bunker[BUNKERHEIGHT][BUNKERWIDTH + 1];
-
-}
+extern int bunker[BUNKERHEIGHT][BUNKERWIDTH + 1];

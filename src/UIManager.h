@@ -85,9 +85,11 @@ public:
     ///@}
 
 public:
-    void finish(int);
+    static void finish(int);
 
 private:
+    void prepearInit();
+    void initPair();
     void battleFieldInit();
     void playerInit();
     void playerMissileInit();
