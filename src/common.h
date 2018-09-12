@@ -5,6 +5,16 @@
 static std::random_device device;
 static std::mt19937 gen(device());
 
+enum class Mode : unsigned
+{
+    LOOP       = 1,
+    NEXT_LEVEL = 2,
+    PAUSE      = 3,
+    GAME_OVER  = 4,
+    EXIT       = 5,
+    HIGHSCORE  = 6
+};
+
 enum class Colour : short
 {
     RED     = 1,
@@ -26,6 +36,7 @@ static const int BUNKERX      = 0;
 static const int BUNKERY      = SCREENHEIGHT - 8;
 static const int UFOWIDTH     = 5;
 static const int UFOPOSY      = 0;
+static const int FPS          = 50;
 
 static const int UFO_ALIEN_TYPE   = 0;
 static const int RED_ALIEN_TYPE   = 1;
