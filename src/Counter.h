@@ -46,7 +46,7 @@ public:
     void checkAliensShot();
 
     /**
-     * @brief checkPlayerShot
+     * @brief checkPlayerShot checks if allien was shotted by player
      */
     void checkPlayerShot();
 
