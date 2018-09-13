@@ -6,7 +6,7 @@
  * @class ConfigurationManager
  * @file  ConfigurationManager.h
  * @brief this class is designed to keep game specific configurations
- * @Author Levon ghukasyan
+ * @author Levon ghukasyan
  */
 
 class ConfigurationManager
