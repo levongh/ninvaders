@@ -6,9 +6,9 @@
 
 To Play:
     git clone https://github.com/levongh/ninvaders
-    cd src/
+    cd ninvaders
     make
-    ./ninvaders
+    ./bin/ninvaders
 
 ## Invaders
    Space invaders game implementation written in c++ using ncurses liberary to get
