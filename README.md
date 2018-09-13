@@ -4,6 +4,12 @@
  - [history](#History)
  - [TODO](#TODO)
 
+To Play:
+    git clone https://github.com/levongh/ninvaders
+    cd src/
+    make
+    ./ninvaders
+
 ## Invaders
    Space invaders game implementation written in c++ using ncurses liberary to get
 text-based user interfaces in a terminal independent manner
