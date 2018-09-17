@@ -8,12 +8,12 @@ public:
     UFO();
     virtual void reset() override;
     void moveLeft();
-    int show();
+    bool show();
 
 private:
     void move(int posX);
 
 private:
-    bool toShow;
+    bool m_toShow;
 };
 

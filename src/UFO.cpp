@@ -10,38 +10,38 @@ UFO::UFO()
 
 void UFO::reset()
 {
-	uiMgr->ufoClear(posX, posY);
-    toShow = false;
-	posY = UFOPOSY;
-	posX = SCREENWIDTH - UFOWIDTH;
+	uiMgr->ufoClear(m_posX, m_posY);
+    m_toShow = false;
+	m_posY = UFOPOSY;
+	m_posX = SCREENWIDTH - UFOWIDTH;
 }
 
 void UFO::move(int posX)
 {
-	uiMgr->ufoClear(posX, posY);
-	posX = posX;
+	uiMgr->ufoClear(m_posX, m_posY);
+	m_posX = posX;
 	uiMgr->ufoRefresh();
-	uiMgr->ufoDisplay(posX, posY);
+	uiMgr->ufoDisplay(m_posX, m_posY);
 }
 
 void UFO::moveLeft()
 {
-	if (posX > 1) {
-		move(posX - 1);
+	if (m_posX > 1) {
+		move(m_posX - 1);
 	} else {
 		reset();
 	}
 }
 
-int UFO::show()
+bool UFO::show()
 {
-	if (toShow &&
+	if (m_toShow &&
             GameTable::getInstance()->getAliens()->getY() > 0) {
         std::uniform_int_distribution<> dis(0, 200);
 		if (dis(gen) == 0) {
-            toShow = true;
+            m_toShow = true;
 		}
 	}
-	return toShow;
+	return m_toShow;
 }
 

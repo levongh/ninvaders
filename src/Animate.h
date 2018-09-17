@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @class  Animate
+ * @class  Animate MovableAnimate
  * @file   Animate.h
  * @brief  base class for all game animates
  * @author Levon Ghukasyan
@@ -20,26 +20,26 @@ public:
 public:
     inline int getX() const
     {
-        return posX;
+        return m_posX;
     }
 
     inline int getY() const
     {
-        return posY;
+        return m_posY;
     }
 
 protected:
-    int posX;
-    int posY;
+    int m_posX;
+    int m_posY;
 
     UIManager* uiMgr;
 };
 
-class MovalbleAnimate : public Animate
+class MovableAnimate : public Animate
 {
 public:
-    bool moveMissile();
+    virtual bool moveMissile();
 
 protected:
-    int m_speed
+    int m_speed;
 };
