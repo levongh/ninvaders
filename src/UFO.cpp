@@ -10,7 +10,7 @@ UFO::UFO()
 
 void UFO::reset()
 {
-	uiMgr->ufoClear(m_posX, m_posY);
+	m_uiMgr->ufoClear(m_posX, m_posY);
     m_toShow = false;
 	m_posY = UFOPOSY;
 	m_posX = SCREENWIDTH - UFOWIDTH;
@@ -18,10 +18,10 @@ void UFO::reset()
 
 void UFO::move(int posX)
 {
-	uiMgr->ufoClear(m_posX, m_posY);
+	m_uiMgr->ufoClear(m_posX, m_posY);
 	m_posX = posX;
-	uiMgr->ufoRefresh();
-	uiMgr->ufoDisplay(m_posX, m_posY);
+	m_uiMgr->ufoRefresh();
+	m_uiMgr->ufoDisplay(m_posX, m_posY);
 }
 
 void UFO::moveLeft()

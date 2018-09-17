@@ -8,6 +8,8 @@
  */
 
 class UIManager;
+class ConfigurationManager;
+
 
 class Animate
 {
@@ -32,14 +34,17 @@ protected:
     int m_posX;
     int m_posY;
 
-    UIManager* uiMgr;
+    UIManager* m_uiMgr;
 };
 
 class MovableAnimate : public Animate
 {
 public:
-    virtual bool moveMissile();
+    virtual bool moveMissile() = 0;
 
 protected:
     int m_speed;
+
+protected:
+    ConfigurationManager* m_confMgr;
 };

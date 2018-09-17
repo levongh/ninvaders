@@ -70,7 +70,7 @@ void Counter::checkUFO()
 void Counter::checkAliensShot()
 {
     if (m_aliensShot == 0 &&
-            m_mgr->gameTable->getAliens()->missileMove() == 1) {
+            m_mgr->gameTable->getAliens()->moveMissile()) {
         m_mgr->confMgr->setLive(m_mgr->confMgr->getLive() - 1);
         m_mgr->drawscore();
         m_mgr->gameTable->getPlayer()->explode();

@@ -2,6 +2,6 @@
 #include "Animate.h"
 
 Animate::Animate()
-    : uiMgr(UIManager::getInstance())
+    : m_uiMgr(UIManager::getInstance())
 {
 }
