@@ -40,6 +40,9 @@ protected:
 class MovableAnimate : public Animate
 {
 public:
+    MovableAnimate();
+
+public:
     virtual bool moveMissile() = 0;
 
 protected:
