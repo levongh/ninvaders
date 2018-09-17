@@ -34,3 +34,12 @@ protected:
 
     UIManager* uiMgr;
 };
+
+class MovalbleAnimate : public Animate
+{
+public:
+    bool moveMissile();
+
+protected:
+    int m_speed
+};
