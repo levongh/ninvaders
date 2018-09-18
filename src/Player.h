@@ -1,20 +1,40 @@
 #pragma once
 
+/**
+ * @class  Player
+ * @file   Player.h
+ * @brief  
+ * @author Levon Ghukasyan
+ */
+
 #include "Animate.h"
 
 class Player : public MovableAnimate
 {
-
 public:
     Player();
     void reset();
+
+    ///@brief Player moving functions
+    ///{
+public:
     void moveLeft();
     void moveRight();
+    ///}
 
+    ///@brief Player moveing speed
+    ///{
+public:
     void turboOn();
     void turboOff();
+    ///}
 
+    ///@brief fire the missile
+    ///{
+public:
     void fire();
+    ///}
+
     void explode();
     void reload();
 
