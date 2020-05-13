@@ -78,7 +78,7 @@ void UIManager::playerInit()
 {
     wPlayer = newpad(1, PLAYERWIDTH);
     wclear(wPlayer);
-    wattrset(wPlayer,COLOR_PAIR(Colour::YELLOW));
+    wattrset(wPlayer,COLOR_PAIR(static_cast<short>(Colour::YELLOW)));
     waddstr(wPlayer,"/-^-\\");
 }
 
@@ -86,7 +86,7 @@ void UIManager::playerMissileInit()
 {
     wPlayerMissile = newpad(1, 1);
     wclear(wPlayerMissile);
-    wattrset(wPlayerMissile,COLOR_PAIR(Colour::WHITE));
+    wattrset(wPlayerMissile,COLOR_PAIR(static_cast<short>(Colour::WHITE)));
     waddch(wPlayerMissile,'!');
     wrefresh(wPlayerMissile);
 }
@@ -102,7 +102,7 @@ void UIManager::aliensMissileInit()
 {
     wAliensMissile = newpad(1, 1);
     wclear(wAliensMissile);
-    wattrset(wAliensMissile, COLOR_PAIR(Colour::CYAN));
+    wattrset(wAliensMissile, COLOR_PAIR(static_cast<short>(Colour::CYAN)));
     waddch(wAliensMissile, ':');
 }
 
@@ -116,14 +116,14 @@ void UIManager::ufoInit()
 {
     wUfo = newpad(1, UFOWIDTH);
     wclear(wUfo);
-    wattrset(wUfo, COLOR_PAIR(Colour::MAGENTA));
+    wattrset(wUfo, COLOR_PAIR(static_cast<short>(Colour::MAGENTA)));
 }
 
 void UIManager::gameOverInit()
 {
     wGameOver = newpad(13, 31);
     wclear(wGameOver);
-    wattrset(wGameOver, COLOR_PAIR(Colour::WHITE));
+    wattrset(wGameOver, COLOR_PAIR(static_cast<short>(Colour::WHITE)));
     waddstr(wGameOver, "                               ");
     waddstr(wGameOver, "  #####   ####  ##   ## ###### ");
     waddstr(wGameOver, " ##      ##  ## ####### ##     ");
@@ -191,7 +191,7 @@ void UIManager::titleScreenDisplay()
 
 	wTitleText = newpad(4, 41);
 	wclear(wTitleText);
-	wattrset(wTitleText, COLOR_PAIR(Colour::YELLOW));
+	wattrset(wTitleText, COLOR_PAIR(static_cast<short>(Colour::YELLOW)));
 	waddstr(wTitleText, "        ____                 __          ");
 	waddstr(wTitleText, "  ___  /  _/__ _  _____  ___/ /__ _______");
     waddstr(wTitleText, " / _ \\_/ // _ \\ |/ / _ `/ _  / -_) __(_-<");
@@ -201,7 +201,7 @@ void UIManager::titleScreenDisplay()
 	wAliens = newpad(7, 11);
 	wclear(wAliens);
 	snprintf(buffer, sizeof(buffer),"%s = 500", ufo[frame % 4]);
-	wattrset(wAliens, COLOR_PAIR(Colour::MAGENTA));
+	wattrset(wAliens, COLOR_PAIR(static_cast<short>(Colour::MAGENTA)));
 	waddstr(wAliens, buffer);
 	if ((frame = frame % 60) == 0) {
 		alien_type = 0;
@@ -213,13 +213,13 @@ void UIManager::titleScreenDisplay()
 	for (int i = alien_type; i < alien_type + 3; i++) {
 		waddstr(wAliens, "           ");
 		snprintf(buffer, sizeof(buffer), "%s   = %d", aliens[frame % 2][i], score[i % 3]);
-		wattrset(wAliens, COLOR_PAIR(colors[i]));
+		wattrset(wAliens, COLOR_PAIR(static_cast<short>(colors[i])));
 		waddstr(wAliens, buffer);
 	}
 
 	wStartText = newpad(1, 20);
 	wclear(wStartText);
-	wattrset(wStartText, COLOR_PAIR(Colour::RED));
+	wattrset(wStartText, COLOR_PAIR(static_cast<short>(Colour::RED)));
 	waddstr(wStartText, "Press SPACE to start");
 
 	int x = (SCREENWIDTH / 2) - (41 / 2);
@@ -284,7 +284,7 @@ void UIManager::playerExplosionDisplay(int x, int y)
     char playerExplosionChars[16+1]="@~`.,^#*-_=\\/%{}";
 
     wPlayerExplosion=newpad(1,PLAYERWIDTH);
-    wattrset(wPlayerExplosion,COLOR_PAIR(Colour::YELLOW));	// set color
+    wattrset(wPlayerExplosion,COLOR_PAIR(static_cast<short>(Colour::YELLOW)));	// set color
 
     for(int t = 0; t < 5; ++t) {
         wclear(wPlayerExplosion);
@@ -343,14 +343,14 @@ void UIManager::aliensRefresh(int level, int *pAliens)
                     };
 
     wclear(wAliens);
-    wattrset(wAliens, COLOR_PAIR(Colour::RED));
+    wattrset(wAliens, COLOR_PAIR(static_cast<short>(Colour::RED)));
     ++frame;
     for (int row = 0; row < ALIENS_MAX_NUMBER_Y * 2; ++row) {
         for (int k = 0; k < ALIENS_MAX_NUMBER_X; ++k) {
             if ((row % 2) == 0) {
                 alienType = *(pAliens + c * (ALIENS_MAX_NUMBER_X) + k);
                 if (alienType != 0) {
-                    wattrset(wAliens, COLOR_PAIR(colors[alienType - 1]));
+                    wattrset(wAliens, COLOR_PAIR(static_cast<short>(colors[alienType - 1])));
                     waddch(wAliens,
                             ships[frame % 2][alienType -1 +(3 * ((level - 1) % 3))][0]);
                     waddch(wAliens,
@@ -386,7 +386,7 @@ void UIManager::bunkersClearElement(int x, int y)
 void UIManager::bunkersDisplay(int *pBunker)
 {
     wclear(wBunkers);
-    wattrset(wBunkers,COLOR_PAIR(Colour::CYAN));
+    wattrset(wBunkers,COLOR_PAIR(static_cast<short>(Colour::CYAN)));
     for (int l = 0; l < BUNKERHEIGHT; ++l) {
         for (int k = 0; k < BUNKERWIDTH; ++k) {
             if (*(pBunker + (l * (BUNKERWIDTH + 1)) + k) == 1) {
@@ -413,7 +413,7 @@ void UIManager::ufoRefresh()
 	static int frame = 0;
 
 	wclear(wUfo);
-    wattrset(wUfo, COLOR_PAIR(Colour::MAGENTA));
+    wattrset(wUfo, COLOR_PAIR(static_cast<short>(Colour::MAGENTA)));
 	waddstr(wUfo, ufo[frame % 4]);
 	++frame;
 }
@@ -439,7 +439,7 @@ void UIManager::statusDisplay(int level, int score, int lives)
     sprintf(strStatus, "Level: %2.2d Score: %2.7d Lives: ", level, score);
 
     wclear(wStatus);
-    wattrset(wStatus, COLOR_PAIR(Colour::RED));
+    wattrset(wStatus, COLOR_PAIR(static_cast<short>(Colour::RED)));
     waddstr(wStatus, strStatus);
 
     for (int t = 1; ((t <= 5) && (t < lives)); t++){
