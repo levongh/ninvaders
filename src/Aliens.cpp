@@ -56,7 +56,6 @@ void Aliens::reset()
 
 bool Aliens::move()
 {
-    int cx, cy;
     bool result = false;
 
     render();
@@ -72,8 +71,8 @@ bool Aliens::move()
             result = true;
         }
         if (m_posY == BUNKERY - m_bottom) {
-            for(cx = 0; cx < BUNKERWIDTH; ++cx) {
-                for(cy = 0; cy < BUNKERHEIGHT; ++cy) {
+            for(int cx = 0; cx < BUNKERWIDTH; ++cx) {
+                for(int cy = 0; cy < BUNKERHEIGHT; ++cy) {
                     bunker[cy][cx] = 0;
                 }
             }
