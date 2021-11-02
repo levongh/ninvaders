@@ -34,6 +34,7 @@ void UIManager::prepearInit()
 	cbreak();
 	noecho();
 	start_color();
+  curs_set(0);
 }
 
 void UIManager::initPair()
